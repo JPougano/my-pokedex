@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useEffect} from "react"
+import PokeImg from "./components/PokeImg"
+import './index.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App(){
+
+    const [pokemonName, setPokemonName] = useState([])
+    const [pokemonId, setPokemonId] = useState([])
+
+
+    useEffect(()=>{
+        fetch('https://pokeapi.co/api/v2/pokemon')
+            .then(res => res.json())
+            .then(info => {
+                setPokemonName(info.results.map(name => name.name))
+                generateArrayOfImages(pokemonName)
+                })
+            },[]) 
+
+
+            function generateArrayOfImages(array){
+                for (let i = 0; i < array.length; i++){
+                    fetch(`https://pokeapi.co/api/v2/pokemon/${array[i]}`)
+                    .then(res => res.json())
+                    .then(info => setPokemonId(prevId => [...prevId, info.id]))
+            } 
+        }
+
+
+    console.log(pokemonName);
+
+    const pokeList = pokemonId.map(a=> <PokeImg 
+            key={a}
+            imgId={a} 
+        />)
+ 
+
+    return ( 
+        <div className="icon--container">
+            {pokeList.sort ()}
+        </div>  
+    )
 }
-
-export default App;

@@ -1,0 +1,13 @@
+.icon--pokemons{
+    width: 200px;
+    height: 200px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    margin: 1rem auto;
+}
+
+.icon--pokemons:hover{
+    transform: scale(1.1); 
+    box-shadow: 0px 0px 10px #000000;
+}
+
